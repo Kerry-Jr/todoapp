@@ -15,9 +15,9 @@ module.exports = {
 
   addTodo: async (req, res) => {
     const { text } = req.body;
-    // if (!text) {
-    //   return res.json({ error: 'You must provide text for todos ' });
-    // }
+    if (!text) {
+      return res.json({ error: 'You must provide text for todos ' });
+    }
     try {
       const [response] = await connection.query(todoQueries.addTodo, { text });
       const [todos] = await connection.query(todoQueries.findTodoById, response.insertId);
