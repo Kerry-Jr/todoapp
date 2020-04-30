@@ -1,4 +1,4 @@
-const connection = require('../config/connection')
+const connection = require('../config/connection');
 
 const todoQueries = require('../models/todos/todosQueries');
 
@@ -36,7 +36,6 @@ module.exports = {
       res.status(403).json({ e });
     }
   },
-
   deleteTodoById: async (req, res) => {
     const { id } = req.params;
     // const query = 'DELETE FROM todos WHERE ?;';
@@ -48,5 +47,28 @@ module.exports = {
     } catch (e) {
       res.status(403).json({ e });
     }
-  }
+  },
+  updateTodoById: async (req, res) => {
+    const { id } = req.params;
+    // console.log(id);
+    // const todoId = parseInt(id);
+    try {
+      const [todos] = await connection.query(todoQueries.findTodoById, id);
+      const foundTodo = todos[0];
+
+      const [updatedTodo] = await connection.query(todoQueries.updateTodoCompleted, [!foundTodo.completed, id]);
+      console.log(id);
+      console.log(updatedTodo);
+      if (updatedTodo.affectedRows !== 0) {
+        const [allTodos] = await connection.query(todoQueries.findAllTodos);
+        res.json(allTodos)
+      }
+
+
+      // console.log(todos);
+      // res.status(200).json(todos[0]);
+    } catch (e) {
+      res.status(403).json({ e });
+    }
+  },
 };

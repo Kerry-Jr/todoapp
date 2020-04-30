@@ -16,6 +16,8 @@ class Counter extends Component {
         <h1>{this.state.counter}</h1>
         <button onClick={this.handleIncrement}>Increment</button>
         <button onClick={this.handleDecrement}>Decrement</button>
+        <button onClick={this.props.history.goBack}>Go back</button>
+        <button onClick={ () => this.props.history.push('/todos') }>Go to todos</button>
       </div>
     );
   }

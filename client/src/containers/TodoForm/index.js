@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import RenderTodoList from '../../components/renderTodoList';
-
+// import { withRouter } from 'react-router-dom';
 
 class TodoForm extends Component {
   state = {
@@ -32,13 +32,37 @@ class TodoForm extends Component {
       console.log(e);
     }
   }
+
+  handleDeleteTodo = async id => {
+    try {
+      const { data } = await axios.delete(`/api/todos/${id}`);
+      this.setState({ todos: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  handleUpdateTodo = async id => {
+    try {
+      console.log(id);
+      const { data } = await axios.patch(`/api/todos/${id}`);
+      this.setState({ todos: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   render() {
     console.log("I rendered inside of Form");
+    console.log(this.props);
     return (
       <div>
         {/* { this.renderTodos() } */}
         <RenderTodoList
         items={this.state.todos}
+        handleDelete={this.handleDeleteTodo}
+        handleUpdate={this.handleUpdateTodo}
         />
         <form>
           <input
@@ -51,5 +75,6 @@ class TodoForm extends Component {
       </div>
     );
   }
-}
+};
+
 export default TodoForm;

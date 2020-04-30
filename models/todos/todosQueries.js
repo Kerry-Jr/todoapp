@@ -16,6 +16,8 @@ const deleteTodoById = 'DELETE FROM todos WHERE id = ?;';
 
 const updateTodoTextById = 'UPDATE todos SET text = ? WHERE id = ?;';
 
+const updateTodoCompleted = 'UPDATE todos SET completed = ? WHERE id = ?;';
+
 module.exports = {
   findAllTodos,
   findAllCompleted,
@@ -24,4 +26,5 @@ module.exports = {
   addTodo,
   deleteTodoById,
   updateTodoTextById,
+  updateTodoCompleted,
 };
