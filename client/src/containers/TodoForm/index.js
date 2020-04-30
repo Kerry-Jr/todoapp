@@ -22,6 +22,7 @@ class TodoForm extends Component {
     const { value, name } = event.target;
     this.setState({ [name]: value });
   }
+  
   handleSubmit = async event => {
     event.preventDefault();
     try {

@@ -48,6 +48,7 @@ module.exports = {
       res.status(403).json({ e });
     }
   },
+
   updateTodoById: async (req, res) => {
     const { id } = req.params;
     // console.log(id);
@@ -57,16 +58,23 @@ module.exports = {
       const foundTodo = todos[0];
 
       const [updatedTodo] = await connection.query(todoQueries.updateTodoCompleted, [!foundTodo.completed, id]);
-      console.log(id);
-      console.log(updatedTodo);
+
       if (updatedTodo.affectedRows !== 0) {
         const [allTodos] = await connection.query(todoQueries.findAllTodos);
-        res.json(allTodos)
+        res.json(allTodos);
       }
-
-
-      // console.log(todos);
-      // res.status(200).json(todos[0]);
+    } catch (e) {
+      res.status(403).json({ e });
+    }
+  },
+  updateTodoTextById: async (req, res) => {
+    const { id } = req.params;
+    const { text } = req.body;
+    try {
+      await connection.query(todoQueries.updateTodoTextById, [text, id]);
+      const [todos] = await connection.query(todoQueries.findTodoById, id);
+      const foundTodo = todos[0];
+      res.json(foundTodo);
     } catch (e) {
       res.status(403).json({ e });
     }
